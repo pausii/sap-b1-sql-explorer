@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // import HelloWorld from './components/HelloWorld.vue'
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-
+import Diagram from '../components/DbDiagram.vue'
 const leftWidth = ref(200)
 let isResizing = false
 
@@ -141,6 +141,8 @@ onBeforeUnmount(() => {
                 </tbody>
               </table>
             </div>
+
+            <Diagram/>
 
           </div>
         </div>
