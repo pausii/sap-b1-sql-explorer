@@ -2,7 +2,7 @@
 // import HelloWorld from './components/HelloWorld.vue'
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 
-const leftWidth = ref(300)
+const leftWidth = ref(200)
 let isResizing = false
 
 const startResize = () => {
@@ -12,7 +12,7 @@ const startResize = () => {
 
 const handleMouseMove = (e: MouseEvent) => {
   if (isResizing) {
-    leftWidth.value = Math.max(e.clientX, 300) // minimum width
+    leftWidth.value = Math.max(e.clientX, 200) // minimum width
   }
 }
 
@@ -36,28 +36,29 @@ onBeforeUnmount(() => {
 <template>
   <div>
     <div class="flex">
-      <div class="p-2" :style="{ width: leftWidth + 'px' }">
+      <div class="p-2" :style="{ maxWidth: leftWidth + 'px' }">
         <div class="text-center">
           <input type="text" class="w-full px-2 py-1 bg-slate-200 rounded-md" placeholder="Search...">
         </div>
         <div class="mt-2">
-          <ul class="text-sm font-mono">
+          <div class="flex items-center overflow-hidden gap-1">
+            <button onclick="toggle(this)" class="shrink-0">➕</button>
+            <span class="font-bold shrink-0">MARA</span>
+            <span class="bg-gray-300 px-2 py-0.5 rounded text-sm truncate min-w-0">
+              General Material Table Table Table Table Table Table Tables
+            </span>
+          </div>
+          <ul class="ml-4 mb-3">
             <li>
               <button onclick="toggle(this)" class="mr-1">➕</button>
-              <span class="font-bold">MARA</span>
-              <span class="bg-gray-300 px-2 ms-2 py-0.5 rounded">General Material Table</span>
-              <ul class="ml-6 ">
-                <li>
-                  <button onclick="toggle(this)" class="mr-1">➕</button>
-                  <span>DocType</span>
-                </li>
-                <li>
-                  <button onclick="toggle(this)" class="mr-1">➕</button>
-                  <span>DocType</span>
-                </li>
-              </ul>
+              <span>DocType</span>
+            </li>
+            <li>
+              <button onclick="toggle(this)" class="mr-1">➕</button>
+              <span>DocType</span>
             </li>
           </ul>
+
         </div>
       </div>
 
@@ -143,7 +144,6 @@ onBeforeUnmount(() => {
 
           </div>
         </div>
-      
 
         <div class="text-center my-3">
           © 2025 Pausi · Made with ❤️ using Vue.js

@@ -1,1 +1,11 @@
-@import "tailwindcss"
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+[data-theme="dark"]{
+    .text-gray-950{
+        /* color: rgb(255, 255, 255); */
+        @apply text-slate-100
+    }
+}

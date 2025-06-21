@@ -18,7 +18,5 @@ onMounted(() => {
 </template>
 
 <style>
-button {
-  @apply cursor-pointer
-}
+
 </style>

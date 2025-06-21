@@ -11,11 +11,13 @@ export const useThemeStore = defineStore('theme', {
       const html = document.documentElement
       html.classList.toggle('dark', this.dark)
       localStorage.setItem('theme', this.dark ? 'dark' : 'light')
+      html.setAttribute('data-theme', this.dark ? 'dark' : 'light')
     },
     initTheme() {
       const saved = localStorage.getItem('theme')
       this.dark = saved === 'dark'
       document.documentElement.classList.toggle('dark', this.dark)
+      document.documentElement.setAttribute('data-theme', this.dark ? 'dark' : 'light')
     },
   },
 })
