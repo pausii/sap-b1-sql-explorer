@@ -51,6 +51,15 @@ cur.execute('''
     )
 ''')
 
+"""
+CREATE INDEX IF NOT EXIST idx_table_list_table_name ON table_list (table_name);
+CREATE INDEX IF NOT EXIST idx_table_list_product ON table_list (product);
+
+CREATE INDEX IF NOT EXIST idx_column_table_table_name ON column_table (table_name);
+CREATE INDEX IF NOT EXIST idx_column_table_column_name ON column_table (column_name);
+
+"""
+
 conn.commit()
 
 def insert_raw_data(url, content):
