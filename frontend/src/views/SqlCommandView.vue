@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
-// import DbDiagram from '../components/DbDiagram.vue'
+import DbDiagram from '../components/DbDiagram.vue'
 import ArrowRight from '../components/icons/ArrowRight.vue'
+import Relation from '../components/icons/Relation.vue'
 // import Spinner from '../components/icons/Spinner.vue'
 import FooterCustom from '../components/Footer.vue'
 import { useAppStore } from '../stores/app'
@@ -121,7 +122,8 @@ const handleKeydown = (event: KeyboardEvent) => {
             </button>
 
             <span class="text-sm leading-none">Limit Rows:</span>
-            <input type="number" class="w-14 outline-none px-2 py-[6px] bg-slate-200 rounded-md text-center text-sm leading-none"
+            <input type="number"
+              class="w-14 outline-none px-2 py-[6px] bg-slate-200 rounded-md text-center text-sm leading-none"
               value="50" />
           </div>
 
@@ -141,7 +143,10 @@ const handleKeydown = (event: KeyboardEvent) => {
                     </th>
                     <th scope="col" class="px-6 py-3 flex gap-1">
                       Category
-                      <img src="https://api.iconify.design/line-md:lightbulb.svg" class="w-[17px]">
+                      <button data-modal-target="default-modal" data-modal-toggle="default-modal">
+                        <!-- <img src="https://api.iconify.design/line-md:lightbulb.svg" class="w-[17px]"> -->
+                         <Relation/>
+                      </button>
                     </th>
                     <th scope="col" class="px-6 py-3">
                       Price
@@ -200,8 +205,39 @@ const handleKeydown = (event: KeyboardEvent) => {
           </div>
         </div>
 
-        <FooterCustom/>
+        <FooterCustom />
 
+      </div>
+    </div>
+
+    <!-- Main modal -->
+    <div id="default-modal" tabindex="-1" aria-hidden="true"
+      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+      <div class="relative w-full max-w-4xl max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+          <!-- Modal header -->
+          <div
+            class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+              Diagram
+            </h3>
+            <button type="button"
+              class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+              data-modal-hide="default-modal">
+              <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 14 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+              </svg>
+              <span class="sr-only">Close modal</span>
+            </button>
+          </div>
+          <!-- Modal body -->
+          <div class="p-4 md:p-5 space-y-4">
+            <DbDiagram/>
+          </div>
+        </div>
       </div>
     </div>
   </div>

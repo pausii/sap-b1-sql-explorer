@@ -1,5 +1,5 @@
 <template>
-  <svg ref="svgRef" width="100%" height="600"></svg>
+  <svg ref="svgRef" width="100%" height="500"></svg>
 </template>
 
 <script setup lang="ts">
@@ -74,7 +74,7 @@ onMounted(async () => {
     .attr('width', 150)
     .attr('height', d => d.columns.length * 30 + 10)
     .attr('rx', 10)
-    .attr('fill', '#fff')
+    .attr('fill', '#ffffff00')
     .attr('stroke', 'none')
     .attr('stroke-width', 2)
 
@@ -106,9 +106,9 @@ onMounted(async () => {
 
       group
         .append('rect')
-        .attr('x', 10)
+        .attr('x', 0)
         .attr('y', yOffset)
-        .attr('width', 130)
+        .attr('width', 150)
         .attr('height', 25)
         .attr('fill', '#e0e0e0')
         .attr('stroke', '#999')
