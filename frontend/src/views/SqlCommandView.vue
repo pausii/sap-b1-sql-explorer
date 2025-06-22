@@ -390,7 +390,7 @@ watch(inputSearch, (newVal) => {
 
         </div>
 
-        <div class="mt-10">
+        <div class="mt-10 min-h-[130px]">
           <div>
             <div class="relative">
               <DataTable/>
