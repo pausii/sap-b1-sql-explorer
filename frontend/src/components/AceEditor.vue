@@ -1,6 +1,7 @@
 <!-- components/AceEditor.vue -->
 <template>
-    <div ref="editor" class="w-[700px] min-w-[700px] border-2 shadow-md min-h-[150px] outline-none px-2 py-1 rounded-md resize"></div>
+    <div ref="editor"
+        class="w-[700px] min-w-[700px] border-2 shadow-md min-h-[150px] outline-none px-2 py-1 rounded-md resize"></div>
 </template>
 
 <script setup lang="ts">
@@ -29,23 +30,42 @@ onMounted(() => {
         enableLiveAutocompletion: true,
         tabSize: 2,
         fontSize: 14,
-        showGutter:false,
+        showGutter: false,
         highlightActiveLine: false,
         wrap: true
     })
-    // aceEditor.renderer.setPadding(10) 
+    
+    // const tableNames = ['users', 'orders', 'products', "MARA"]
+    // ace.require('ace/ext/language_tools').addCompleter({
+    //     getCompletions(
+    //         _editor: ace.Ace.Editor,
+    //         _session: ace.Ace.EditSession,
+    //         _pos: ace.Ace.Point,
+    //         _prefix: string,
+    //         callback: (error: any, completions: any[]) => void
+    //     ) {
+    //         const completions = tableNames.map(name => ({
+    //             caption: name,
+    //             value: name,
+    //             meta: 'table',
+    //             score: 1000,
+    //         }))
+    //         callback(null, completions)
+    //     }
+    // })
+
     aceEditor.session.on('change', () => {
         emit('update:modelValue', aceEditor.getValue())
     })
 
-    // set focus
-    // aceEditor.focus()
+    // aceEditor.focus() // set focus
 })
 </script>
 
 <style scoped>
 ::v-deep .ace_content {
-  padding-top: 4px !important; /* setara dengan Tailwind pt-8 */
-  padding-left: 4px !important;
+    padding-top: 4px !important;
+    /* setara dengan Tailwind pt-8 */
+    padding-left: 4px !important;
 }
 </style>
