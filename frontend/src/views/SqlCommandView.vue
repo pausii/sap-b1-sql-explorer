@@ -11,7 +11,7 @@ const app = useAppStore()
 const inputSearch = ref('')
 
 app.setTitle('SQL Command')
-const query = ref('SELECT * FROM XYZ')
+
 const leftWidth = ref(200)
 let isResizing = false
 
@@ -31,10 +31,17 @@ const stopResize = () => {
   document.body.style.cursor = ''
 }
 
+const query = ref('SELECT * FROM XYZ')
+const hash = window.location.hash.slice(1) // Hilangkan `#`
+if (hash) {
+  query.value = decodeURIComponent(hash)
+}
+
 onMounted(() => {
   window.addEventListener('mousemove', handleMouseMove)
   window.addEventListener('mouseup', stopResize)
 })
+
 
 onBeforeUnmount(() => {
   window.removeEventListener('mousemove', handleMouseMove)
@@ -45,6 +52,7 @@ const isLoadingQuery = ref(false)
 const submitQuery = () => {
   console.log('submitQuery', query.value)
   isLoadingQuery.value = true
+  window.location.hash = encodeURIComponent(query.value) // set hash
 }
 
 type TableItem = {
@@ -376,8 +384,12 @@ watch(inputSearch, (newVal) => {
             <button @click="submitQuery" :disabled="isLoadingQuery"
               :class="'flex items-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-blue-300 font-medium rounded-sm text-sm px-3 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 leading-none focus:ring-0 focus:border-0' + (isLoadingQuery ? ' cursor-wait' : '')">
               <span class="me-2 inline-flex items-center">
-                <span v-if="isLoadingQuery"><Spinner size="14px" /></span>
-                <span v-else><ArrowRight size="12px" /></span>
+                <span v-if="isLoadingQuery">
+                  <Spinner size="14px" />
+                </span>
+                <span v-else>
+                  <ArrowRight size="12px" />
+                </span>
               </span>
               <span class="leading-none">Execute</span>
             </button>
@@ -393,7 +405,7 @@ watch(inputSearch, (newVal) => {
         <div class="mt-10 min-h-[130px]">
           <div>
             <div class="relative">
-              <DataTable/>
+              <DataTable />
             </div>
 
             <!-- <DbDiagram /> -->
