@@ -2,18 +2,23 @@
 import { onMounted } from 'vue';
 import Navbar from './components/Navbar.vue';
 import { useThemeStore } from './stores/theme';
-// import SplashScreen from './components/SplashScreen.vue';
+import { useAppStore } from './stores/app';
+import SplashScreen from './components/SplashScreen.vue';
 
 const themeStore = useThemeStore()
+const app = useAppStore()
 
 onMounted(() => {
   themeStore.initTheme()
+  app.init()
 })
 </script>
 
 <template>
   <div>
-    <!-- <SplashScreen /> -->
+    <div v-if="!app.isAuthenticated">
+      <SplashScreen />
+    </div>
     <Navbar />
     <router-view />
   </div>

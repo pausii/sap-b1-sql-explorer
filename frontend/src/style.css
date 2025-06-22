@@ -55,4 +55,8 @@ input[type="number"] {
     .text-gray-500 {
         @apply text-slate-400
     }
+
+    .border-gray-300{
+        @apply border-slate-600
+    }
 }

@@ -1,3 +1,22 @@
+<script lang="ts" setup>
+import axios from 'axios';
+import { onMounted } from 'vue';
+import { useAppStore } from '../stores/app';
+
+const app = useAppStore()
+
+onMounted(() => {
+    document.body.style.overflow = 'hidden';
+    axios.get('/api/auth/authorize').then(() => {
+        setTimeout(() => {
+            document.body.style.overflow = ''; // remove overflow
+            app.isAuthenticated = true
+            app.setToken('Yoo')
+        }, 3000)
+    })
+})
+</script>
+
 <template>
     <div>
         <div

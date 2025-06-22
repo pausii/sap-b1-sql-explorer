@@ -2,8 +2,9 @@
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
 import DbDiagram from '../components/DbDiagram.vue'
 import ArrowRight from '../components/icons/ArrowRight.vue'
-import Relation from '../components/icons/Relation.vue'
+import DataTable from '../components/DataTable.vue'
 import AceEditor from '../components/AceEditor.vue'
+import Spinner from '../components/icons/Spinner.vue'
 import FooterCustom from '../components/Footer.vue'
 import { useAppStore } from '../stores/app'
 const app = useAppStore()
@@ -40,6 +41,11 @@ onBeforeUnmount(() => {
   window.removeEventListener('mouseup', stopResize)
 })
 
+const isLoadingQuery = ref(false)
+const submitQuery = () => {
+  console.log('submitQuery', query.value)
+  isLoadingQuery.value = true
+}
 
 type TableItem = {
   table_name: string
@@ -322,7 +328,7 @@ watch(inputSearch, (newVal) => {
           </div>
 
 
-          <div v-for="(tables, module) in searchedData">
+          <!-- <div v-for="(tables, module) in searchedData">
             <div class="flex flex-col items-start" v-for="table in tables">
               <div>
                 <div class="flex items-center overflow-hidden gap-1">
@@ -354,7 +360,7 @@ watch(inputSearch, (newVal) => {
                 </ul>
               </div>
             </div>
-          </div>
+          </div> -->
 
         </div>
       </div>
@@ -367,11 +373,11 @@ watch(inputSearch, (newVal) => {
           <!-- <textarea class="min-w-[700px] min-h-[150px] outline-none px-2 py-1 bg-slate-200 rounded-md resize"
             v-model="query" @keydown="handleKeydown" placeholder="Enter your query..."></textarea> -->
           <div class="flex items-center space-x-3 mt-2">
-            <button
-              class="flex items-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-blue-300 font-medium rounded-sm text-sm px-3 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 leading-none focus:ring-0 focus:border-0">
+            <button @click="submitQuery" :disabled="isLoadingQuery"
+              :class="'flex items-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-blue-300 font-medium rounded-sm text-sm px-3 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 leading-none focus:ring-0 focus:border-0' + (isLoadingQuery ? ' cursor-wait' : '')">
               <span class="me-2 inline-flex items-center">
-                <ArrowRight size="12px" />
-                <!-- <Spinner size="14px" /> -->
+                <span v-if="isLoadingQuery"><Spinner size="14px" /></span>
+                <span v-else><ArrowRight size="12px" /></span>
               </span>
               <span class="leading-none">Execute</span>
             </button>
@@ -387,75 +393,7 @@ watch(inputSearch, (newVal) => {
         <div class="mt-10">
           <div>
             <div class="relative">
-              <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                  <tr>
-                    <th scope="col" class="px-6 py-3 border border-gray-300">
-                      Product name
-                    </th>
-                    <th scope="col" class="px-6 py-3 border border-gray-300">
-                      Color
-                    </th>
-                    <th scope="col" class="px-6 py-3 flex gap-1 border border-gray-300">
-                      Category
-                      <button data-modal-target="default-modal" data-modal-toggle="default-modal">
-                        <!-- <img src="https://api.iconify.design/line-md:lightbulb.svg" class="w-[17px]"> -->
-                        <Relation />
-                      </button>
-                    </th>
-                    <th scope="col" class="px-6 py-3 border border-gray-300">
-                      Price
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                    <td scope="row"
-                      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border border-gray-300">
-                      Apple MacBook Pro 17"
-                    </td>
-                    <td class="px-6 py-4 border border-gray-300">
-                      Silver
-                    </td>
-                    <td class="px-6 py-4 border border-gray-300">
-                      Laptop
-                    </td>
-                    <td class="px-6 py-4 border border-gray-300">
-                      $2999
-                    </td>
-                  </tr>
-                  <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                    <td scope="row"
-                      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border border-gray-300">
-                      Microsoft Surface Pro
-                    </td>
-                    <td class="px-6 py-4 border border-gray-300">
-                      White
-                    </td>
-                    <td class="px-6 py-4 border border-gray-300">
-                      Laptop PC
-                    </td>
-                    <td class="px-6 py-4 border border-gray-300">
-                      $1999
-                    </td>
-                  </tr>
-                  <tr class="bg-white dark:bg-gray-800">
-                    <td scope="row"
-                      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border border-gray-300">
-                      Magic Mouse 2
-                    </td>
-                    <td class="px-6 py-4 border border-gray-300">
-                      Black
-                    </td>
-                    <td class="px-6 py-4 border border-gray-300">
-                      Accessories
-                    </td>
-                    <td class="px-6 py-4 border border-gray-300">
-                      $99
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <DataTable/>
             </div>
 
             <!-- <DbDiagram /> -->
