@@ -12,11 +12,13 @@
     "@tanstack/virtual-core": "^3.13.10",
     "axios": "^1.10.0",
     "d3": "^7.9.0",
+    "flowbite": "^3.1.2",
     "pinia": "^3.0.3",
     "vue": "^3.5.13",
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
+    "@types/d3": "^7.4.3",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vue/tsconfig": "^0.7.0",
     "autoprefixer": "^10.4.21",

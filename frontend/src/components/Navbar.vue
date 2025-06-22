@@ -14,14 +14,14 @@ const app = useAppStore()
     <div class="grid grid-cols-9 border-b-2 border-slate-200 dark:bg-slate-800 pb-1">
         <div class="col-span-1">
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/SAP_2011_logo.svg/2560px-SAP_2011_logo.svg.png"
-                alt="SAP Logo">
+                alt="SAP Logo" class="h-full">
         </div>
 
-        <div class="col-span-6 flex flex-col justify-between text-gray-950">
+        <div class="col-span-6 flex flex-col justify-between text-gray-950 lg:pl-16">
             <div class="mt-2 items-center flex">
-                <span class="me-1" href="">SAP</span>
+                <router-link class="me-1" to="/">SAP</router-link>
                 <span class="me-1 flex items-center"><RightArrow/></span>
-                <span class="me-1" href="">SBODEMO</span>
+                <router-link class="me-1" to="/">SBODEMO</router-link>
                 <span class="me-1 flex items-center"><RightArrow/></span>
                 <span class="me-1" href="">{{app.title}}</span>
             </div>
@@ -31,6 +31,7 @@ const app = useAppStore()
         </div>
         <div class="col-span-2 h-full flex flex-col justify-end">
             <div class="flex gap-3 pb-3">
+                <router-link to="/" class=" border p-1 rounded-lg px-2 bg-slate-200 text-gray-900">Tables</router-link>
                 <router-link to="/sql" class=" border p-1 rounded-lg px-2 bg-slate-200 text-gray-900">SQL Command</router-link>
                 <button title="Coming soon!" class="dark:text-slate-200">
                      <SettingsLine size="27px"/>
