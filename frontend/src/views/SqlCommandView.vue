@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import DbDiagram from '../components/DbDiagram.vue'
 import ArrowRight from '../components/icons/ArrowRight.vue'
 import Relation from '../components/icons/Relation.vue'
-// import Spinner from '../components/icons/Spinner.vue'
+import AceEditor from '../components/AceEditor.vue'
 import FooterCustom from '../components/Footer.vue'
 import { useAppStore } from '../stores/app'
 const app = useAppStore()
@@ -39,27 +39,27 @@ onBeforeUnmount(() => {
   window.removeEventListener('mouseup', stopResize)
 })
 
-const handleKeydown = (event: KeyboardEvent) => {
-  const textarea = event.target as HTMLTextAreaElement
+// const handleKeydown = (event: KeyboardEvent) => {
+//   const textarea = event.target as HTMLTextAreaElement
 
-  if (event.key === 'Tab') {
-    event.preventDefault()
+//   if (event.key === 'Tab') {
+//     event.preventDefault()
 
-    const start = textarea.selectionStart
-    const end = textarea.selectionEnd
+//     const start = textarea.selectionStart
+//     const end = textarea.selectionEnd
 
-    // Sisipkan tab
-    const before = query.value.substring(0, start)
-    const after = query.value.substring(end)
+//     // Sisipkan tab
+//     const before = query.value.substring(0, start)
+//     const after = query.value.substring(end)
 
-    query.value = before + '\t' + after
+//     query.value = before + '\t' + after
 
-    // Kembalikan kursor setelah tab
-    nextTick(() => {
-      textarea.selectionStart = textarea.selectionEnd = start + 1
-    })
-  }
-}
+//     // Kembalikan kursor setelah tab
+//     nextTick(() => {
+//       textarea.selectionStart = textarea.selectionEnd = start + 1
+//     })
+//   }
+// }
 </script>
 
 <template>
@@ -109,8 +109,9 @@ const handleKeydown = (event: KeyboardEvent) => {
 
       <div class="p-2 w-full ps-3">
         <div>
-          <textarea class="min-w-[700px] min-h-[150px] outline-none px-2 py-1 bg-slate-200 rounded-md resize"
-            v-model="query" @keydown="handleKeydown" placeholder="Enter your query..."></textarea>
+          <AceEditor v-model="query" />
+          <!-- <textarea class="min-w-[700px] min-h-[150px] outline-none px-2 py-1 bg-slate-200 rounded-md resize"
+            v-model="query" @keydown="handleKeydown" placeholder="Enter your query..."></textarea> -->
           <div class="flex items-center space-x-3 mt-2">
             <button
               class="flex items-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-blue-300 font-medium rounded-sm text-sm px-3 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 leading-none focus:ring-0 focus:border-0">
@@ -135,64 +136,67 @@ const handleKeydown = (event: KeyboardEvent) => {
               <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3 border border-gray-300">
                       Product name
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3 border border-gray-300">
                       Color
                     </th>
-                    <th scope="col" class="px-6 py-3 flex gap-1">
+                    <th scope="col" class="px-6 py-3 flex gap-1 border border-gray-300">
                       Category
                       <button data-modal-target="default-modal" data-modal-toggle="default-modal">
                         <!-- <img src="https://api.iconify.design/line-md:lightbulb.svg" class="w-[17px]"> -->
-                         <Relation/>
+                        <Relation />
                       </button>
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3 border border-gray-300">
                       Price
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <td scope="row"
+                      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border border-gray-300">
                       Apple MacBook Pro 17"
-                    </th>
-                    <td class="px-6 py-4">
+                    </td>
+                    <td class="px-6 py-4 border border-gray-300">
                       Silver
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 border border-gray-300">
                       Laptop
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 border border-gray-300">
                       $2999
                     </td>
                   </tr>
                   <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <td scope="row"
+                      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border border-gray-300">
                       Microsoft Surface Pro
-                    </th>
-                    <td class="px-6 py-4">
+                    </td>
+                    <td class="px-6 py-4 border border-gray-300">
                       White
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 border border-gray-300">
                       Laptop PC
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 border border-gray-300">
                       $1999
                     </td>
                   </tr>
                   <tr class="bg-white dark:bg-gray-800">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <td scope="row"
+                      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border border-gray-300">
                       Magic Mouse 2
-                    </th>
-                    <td class="px-6 py-4">
+                    </td>
+                    <td class="px-6 py-4 border border-gray-300">
                       Black
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 border border-gray-300">
                       Accessories
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 border border-gray-300">
                       $99
                     </td>
                   </tr>
@@ -235,7 +239,7 @@ const handleKeydown = (event: KeyboardEvent) => {
           </div>
           <!-- Modal body -->
           <div class="p-4 md:p-5 space-y-4">
-            <DbDiagram/>
+            <DbDiagram />
           </div>
         </div>
       </div>
