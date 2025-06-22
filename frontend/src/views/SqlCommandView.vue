@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
 import DbDiagram from '../components/DbDiagram.vue'
 import ArrowRight from '../components/icons/ArrowRight.vue'
 import Relation from '../components/icons/Relation.vue'
@@ -7,6 +7,7 @@ import AceEditor from '../components/AceEditor.vue'
 import FooterCustom from '../components/Footer.vue'
 import { useAppStore } from '../stores/app'
 const app = useAppStore()
+const inputSearch = ref('')
 
 app.setTitle('SQL Command')
 const query = ref('SELECT * FROM XYZ')
@@ -39,27 +40,240 @@ onBeforeUnmount(() => {
   window.removeEventListener('mouseup', stopResize)
 })
 
-// const handleKeydown = (event: KeyboardEvent) => {
-//   const textarea = event.target as HTMLTextAreaElement
 
-//   if (event.key === 'Tab') {
-//     event.preventDefault()
+type TableItem = {
+  table_name: string
+  total_columns: number
+  total_indexs: number
+  description: string
+  expanded?: boolean
+  columns?: {
+    name: string
+    type: string
+    nullable: boolean
+  }[]
+}
 
-//     const start = textarea.selectionStart
-//     const end = textarea.selectionEnd
+const dataTables: Record<string, TableItem[]> = {
+  "Finance": [
+    {
+      "table_name": "AACS",
+      "total_columns": 14,
+      "total_indexs": 1,
+      "description": "Asset Classes - History",
+      "columns": [
+        {
+          "name": "id",
+          "type": "varchar",
+          "nullable": false
+        }
+      ]
+    },
+    {
+      "table_name": "AACT",
+      "total_columns": 123,
+      "total_indexs": 1,
+      "description": "G/L Account - History"
+    },
+    {
+      "table_name": "AADT",
+      "total_columns": 27,
+      "total_indexs": 1,
+      "description": "Fixed Assets Account Determination - History"
+    },
+    {
+      "table_name": "ACD1",
+      "total_columns": 23,
+      "total_indexs": 1,
+      "description": "Credit Memo - Rows"
+    },
+    {
+      "table_name": "ACD32",
+      "total_columns": 9,
+      "total_indexs": 1,
+      "description": "Credit Memo - Area Journal Transactions"
+    },
+    {
+      "table_name": "ACD3",
+      "total_columns": 9,
+      "total_indexs": 1,
+      "description": "Credit Memo - Item Areas"
+    }
+  ],
+  "Finance1": [
+    {
+      "table_name": "AACS",
+      "total_columns": 14,
+      "total_indexs": 1,
+      "description": "Asset Classes - History"
+    },
+    {
+      "table_name": "AACT",
+      "total_columns": 123,
+      "total_indexs": 1,
+      "description": "G/L Account - History"
+    },
+    {
+      "table_name": "AADT",
+      "total_columns": 27,
+      "total_indexs": 1,
+      "description": "Fixed Assets Account Determination - History"
+    },
+    {
+      "table_name": "ACD1",
+      "total_columns": 23,
+      "total_indexs": 1,
+      "description": "Credit Memo - Rows"
+    },
+    {
+      "table_name": "ACsD2",
+      "total_columns": 9,
+      "total_indexs": 1,
+      "description": "Credit Memo - Area Journal Transactions"
+    },
+    {
+      "table_name": "ACD3",
+      "total_columns": 9,
+      "total_indexs": 1,
+      "description": "Credit Memo - Item Areas"
+    }
+  ],
+  "Finance2": [
+    {
+      "table_name": "AACS",
+      "total_columns": 14,
+      "total_indexs": 1,
+      "description": "Asset Classes - History"
+    },
+    {
+      "table_name": "AACT",
+      "total_columns": 123,
+      "total_indexs": 1,
+      "description": "G/L Account - History"
+    },
+    {
+      "table_name": "AADT",
+      "total_columns": 27,
+      "total_indexs": 1,
+      "description": "Fixed Assets Account Determination - History"
+    },
+    {
+      "table_name": "ACD1",
+      "total_columns": 23,
+      "total_indexs": 1,
+      "description": "Credit Memo - Rows"
+    },
+    {
+      "table_name": "ACD2",
+      "total_columns": 9,
+      "total_indexs": 1,
+      "description": "Credit Memo - Area Journal Transactions"
+    },
+    {
+      "table_name": "ACD3",
+      "total_columns": 9,
+      "total_indexs": 1,
+      "description": "Credit Memo - Item Areas"
+    }
+  ],
+  "Finance3": [
+    {
+      "table_name": "AACS",
+      "total_columns": 14,
+      "total_indexs": 1,
+      "description": "Asset Classes - History"
+    },
+    {
+      "table_name": "AACT",
+      "total_columns": 123,
+      "total_indexs": 1,
+      "description": "G/L Account - History"
+    },
+    {
+      "table_name": "AADT",
+      "total_columns": 27,
+      "total_indexs": 1,
+      "description": "Fixed Assets Account Determination - History"
+    },
+    {
+      "table_name": "ACD1",
+      "total_columns": 23,
+      "total_indexs": 1,
+      "description": "Credit Memo - Rows"
+    },
+    {
+      "table_name": "ACD2",
+      "total_columns": 9,
+      "total_indexs": 1,
+      "description": "Credit Memo - Area Journal Transactions"
+    },
+    {
+      "table_name": "ACD3",
+      "total_columns": 9,
+      "total_indexs": 1,
+      "description": "Credit Memo - Item Areas"
+    }
+  ],
+  "Finance4": [
+    {
+      "table_name": "AACS",
+      "total_columns": 14,
+      "total_indexs": 1,
+      "description": "Asset Classes - History"
+    },
+    {
+      "table_name": "AACT",
+      "total_columns": 123,
+      "total_indexs": 1,
+      "description": "G/L Account - History"
+    },
+    {
+      "table_name": "AADT",
+      "total_columns": 27,
+      "total_indexs": 1,
+      "description": "Fixed Assets Account Determination - History"
+    },
+    {
+      "table_name": "ACD1",
+      "total_columns": 23,
+      "total_indexs": 1,
+      "description": "Credit Memo - Rows"
+    },
+    {
+      "table_name": "ACD2",
+      "total_columns": 9,
+      "total_indexs": 1,
+      "description": "Credit Memo - Area Journal Transactions"
+    },
+    {
+      "table_name": "ACD3",
+      "total_columns": 9,
+      "total_indexs": 1,
+      "description": "Credit Memo - Item Areas"
+    }
+  ]
+}
 
-//     // Sisipkan tab
-//     const before = query.value.substring(0, start)
-//     const after = query.value.substring(end)
+const searchedData = ref(dataTables)
+watch(inputSearch, (newVal) => {
+  const result: Record<string, TableItem[]> = {}
 
-//     query.value = before + '\t' + after
+  const keyword = newVal.toLowerCase()
 
-//     // Kembalikan kursor setelah tab
-//     nextTick(() => {
-//       textarea.selectionStart = textarea.selectionEnd = start + 1
-//     })
-//   }
-// }
+  for (const [modul, tables] of Object.entries(dataTables)) {
+    const filtered = tables.filter((data) =>
+      data.table_name.toLowerCase().includes(keyword) ||
+      data.description.toLowerCase().includes(keyword)
+    )
+
+    if (filtered.length > 0) {
+      result[modul] = filtered
+    }
+  }
+
+  searchedData.value = result
+})
+
 </script>
 
 <template>
@@ -70,37 +284,77 @@ onBeforeUnmount(() => {
           <span class="absolute inset-y-0 left-0 flex items-center pl-2 text-gray-500">
             🔍
           </span>
-          <input type="text" placeholder="Search..."
+          <input type="text" placeholder="Search..." v-model="inputSearch"
             class="w-full pl-8 pr-4 py-1 border rounded focus:border-blue-300" />
         </div>
         <div class="mt-2">
-          <div class="flex items-center overflow-hidden gap-1">
-            <button onclick="toggle(this)" class="shrink-0">➕</button>
-            <span class="font-bold shrink-0">MARA</span>
-            <span data-tooltip-target="tooltip-right" data-tooltip-placement="right"
-              class="bg-gray-300 px-2 py-0.5 rounded text-sm truncate min-w-0">
-              General Material Table Table Table Table Table Table Tables
-            </span>
 
-            <div id="tooltip-right" role="tooltip"
-              class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-              Berisi data umum master material, seperti nomor material, <br>
-              deskripsi dasar, dan jenis material. Ini adalah fondasi <br>
-              untuk pengelolaan stok dan produk. <br>
-              <div class="pt-2 font-medium">Generated by AI</div>
-              <div class="tooltip-arrow" data-popper-arrow></div>
+          <div>
+            <div>
+              <div class="flex items-center overflow-hidden gap-1">
+                <button onclick="toggle(this)" class="shrink-0">➕</button>
+                <span class="font-bold shrink-0">MARA</span>
+                <span data-tooltip-target="tooltip-right" data-tooltip-placement="right"
+                  class="bg-gray-300 px-2 py-0.5 rounded text-sm truncate min-w-0">
+                  General Material Table Table Table Table Table Table Tables
+                </span>
+
+                <div id="tooltip-right" role="tooltip"
+                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                  Berisi data umum master material, seperti nomor material, <br>
+                  deskripsi dasar, dan jenis material. Ini adalah fondasi <br>
+                  untuk pengelolaan stok dan produk. <br>
+                  <div class="pt-2 font-medium">Generated by AI</div>
+                  <div class="tooltip-arrow" data-popper-arrow></div>
+                </div>
+              </div>
+              <ul class="ml-4 mb-3">
+                <li>
+                  <button onclick="toggle(this)" class="mr-1">➕</button>
+                  <span>DocType</span>
+                </li>
+                <li>
+                  <button onclick="toggle(this)" class="mr-1">➕</button>
+                  <span>DocType</span>
+                </li>
+              </ul>
             </div>
           </div>
-          <ul class="ml-4 mb-3">
-            <li>
-              <button onclick="toggle(this)" class="mr-1">➕</button>
-              <span>DocType</span>
-            </li>
-            <li>
-              <button onclick="toggle(this)" class="mr-1">➕</button>
-              <span>DocType</span>
-            </li>
-          </ul>
+
+
+          <div v-for="(tables, module) in searchedData">
+            <div class="flex flex-col items-start" v-for="table in tables">
+              <div>
+                <div class="flex items-center overflow-hidden gap-1">
+                  <button onclick="toggle(this)" class="shrink-0">➕</button>
+                  <span class="font-bold shrink-0">{{ table.table_name }}</span>
+                  <span data-tooltip-target="tooltip-right" data-tooltip-placement="right"
+                    class="bg-gray-300 px-2 py-0.5 rounded text-sm truncate min-w-0">
+                    {{ table.description }}
+                  </span>
+
+                  <div id="tooltip-right" role="tooltip"
+                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                    Berisi data umum master material, seperti nomor material, <br>
+                    deskripsi dasar, dan jenis material. Ini adalah fondasi <br>
+                    untuk pengelolaan stok dan produk. <br>
+                    <div class="pt-2 font-medium">Generated by AI</div>
+                    <div class="tooltip-arrow" data-popper-arrow></div>
+                  </div>
+                </div>
+                <ul class="ml-4 mb-3">
+                  <li>
+                    <button onclick="toggle(this)" class="mr-1">➕</button>
+                    <span>DocType</span>
+                  </li>
+                  <li>
+                    <button onclick="toggle(this)" class="mr-1">➕</button>
+                    <span>DocType</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
 
         </div>
       </div>
