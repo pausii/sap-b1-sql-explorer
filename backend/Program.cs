@@ -1,13 +1,34 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore;
+using backend.Data;
 using System.Text; // <- untuk Encoding
 using backend.Services; // <- untuk HanaService
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Daftarkan CORS policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+builder.Services.AddControllers();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<HanaService>();
+
+// 🔌 Tambahkan SQLite EF Core
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.Configure<GlobalSettings>(
+    builder.Configuration.GetSection("GlobalSettings"));
 
 // JWT Authentication
 var jwtConfig = builder.Configuration.GetSection("Jwt");
@@ -50,6 +71,8 @@ app.UseRouting();
 // Enable Auth
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseCors("AllowAll");
 
 app.MapControllerRoute(
     name: "default",

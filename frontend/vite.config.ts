@@ -8,4 +8,17 @@ export default defineConfig({
     vue(),
     // tailwindcss()
   ],
+  build: {
+    outDir: '../backend/wwwroot/',
+    rollupOptions: {
+      output: {
+        entryFileNames: `assets/[name].js`,
+        chunkFileNames: `assets/[name].js`,
+        assetFileNames: `assets/[name].[ext]`
+      }
+    }
+  },
+  server: {
+    allowedHosts: ['563f8696483c.ngrok-free.app'],
+  }
 })

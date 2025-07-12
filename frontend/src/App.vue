@@ -4,6 +4,9 @@ import Navbar from './components/Navbar.vue';
 import { useThemeStore } from './stores/theme';
 import { useAppStore } from './stores/app';
 import SplashScreen from './components/SplashScreen.vue';
+// import 'ag-grid-community/styles/ag-grid.css';
+// import 'ag-grid-community/styles/ag-theme-alpine.css';
+
 
 const themeStore = useThemeStore()
 const app = useAppStore()

@@ -13,6 +13,10 @@ public class HomeController : Controller
         _logger = logger;
     }
 
+    [HttpGet]
+    [Route("")]
+    [Route("sql")]
+    [Route("home")]
     public IActionResult Index()
     {
         return View();

@@ -1,11 +1,11 @@
 <!-- components/AceEditor.vue -->
 <template>
     <div ref="editor"
-        class="w-[700px] min-w-[700px] border-2 shadow-md min-h-[150px] outline-none px-2 py-1 rounded-md resize"></div>
+        class="md:w-[700px] md:min-w-[700px] border-2 shadow-md min-h-[150px] outline-none px-2 py-1 rounded-md resize"></div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import * as ace from 'ace-builds'
 
 // mode & theme
@@ -16,9 +16,9 @@ import 'ace-builds/src-noconflict/ext-language_tools' // untuk autocomplete dll
 const props = defineProps<{
     modelValue: string
 }>()
-const emit = defineEmits(['update:modelValue'])
 
 const editor = ref<HTMLDivElement>()
+const emit = defineEmits(['update:modelValue', 'runQuery']) // daftarkan nama event
 
 onMounted(() => {
     const aceEditor = ace.edit(editor.value!, {
@@ -59,13 +59,29 @@ onMounted(() => {
     })
 
     // aceEditor.focus() // set focus
+    
+    // ❗ Tambahkan ini untuk update dari luar ke editor
+    watch(() => props.modelValue, (newVal) => {
+        if (aceEditor && aceEditor.getValue() !== newVal) {
+            aceEditor.setValue(newVal, -1) // -1 = jaga posisi cursor
+        }
+    })
+
+    aceEditor.commands.addCommand({
+        name: 'runOnCtrlEnter',
+        bindKey: { win: 'Ctrl-Enter', mac: 'Command-Enter' },
+        exec: () => {
+            emit('runQuery')
+        }
+    })
+
 })
 </script>
 
 <style scoped>
-::v-deep .ace_content {
-    padding-top: 4px !important;
+/*::v-deep .ace_content {*/
+    /* padding-top: 4px !important; */
     /* setara dengan Tailwind pt-8 */
-    padding-left: 4px !important;
-}
+    /* padding-left: 4px !important; */
+/*}*/
 </style>

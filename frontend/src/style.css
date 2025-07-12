@@ -7,6 +7,9 @@
 input {
     @apply focus:outline-none focus:ring-0
 }
+dx-license {
+  display: none !important;
+}
 
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {

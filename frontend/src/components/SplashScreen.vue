@@ -7,11 +7,16 @@ const app = useAppStore()
 
 onMounted(() => {
     document.body.style.overflow = 'hidden';
-    axios.get('/api/auth/authorize').then(() => {
+    const baseUrl = import.meta.env.VITE_API_BASE_URL;
+    axios.post(`${baseUrl}/auth/login`,{
+        "username":"pausi", 
+        "password":"REDACTED_PASSWORD",
+    }).then((res) => {
         setTimeout(() => {
             document.body.style.overflow = ''; // remove overflow
             app.isAuthenticated = true
-            app.setToken('Yoo')
+            // app.setToken('Yoo')
+            app.setToken(res.data.token)
         }, 3000)
     })
 })

@@ -4,7 +4,7 @@ import { defineStore } from 'pinia'
 export const useAppStore = defineStore('app', {
   state: () => ({
     title: 'My App',
-    appToken: '',
+    authToken: '',
     isAuthenticated: false
   }),
   actions: {
@@ -13,11 +13,11 @@ export const useAppStore = defineStore('app', {
       document.title = newTitle
     },
     setToken(token: string) {
-      this.appToken = token
-      sessionStorage.setItem('appToken', token)
+      this.authToken = token
+      sessionStorage.setItem('authToken', token)
     },
     init() {
-      const token = sessionStorage.getItem('appToken')
+      const token = sessionStorage.getItem('authToken')
       if (token && token !== '') {
         this.setToken(token)
         this.isAuthenticated = true

@@ -5,6 +5,7 @@ import MoonLine from './icons/MoonLine.vue'
 import SunLine from './icons/SunLine.vue';
 import SettingsLine from './icons/SettingsLine.vue'
 import RightArrow from './icons/RightArrow.vue'
+import Logo from './Logo.vue';
 
 const themeStore = useThemeStore()
 const app = useAppStore()
@@ -12,9 +13,10 @@ const app = useAppStore()
 
 <template>
     <nav class="grid grid-cols-9 border-b-2 border-slate-200 dark:bg-slate-800 pb-1">
-        <div class="md:col-span-1 hidden md:inline">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/SAP_2011_logo.svg/2560px-SAP_2011_logo.svg.png"
-                alt="SAP Logo" class="h-full">
+        <div class="md:col-span-1 hidden md:flex justify-center items-center h-full">
+            <!-- <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/SAP_2011_logo.svg/2560px-SAP_2011_logo.svg.png"
+                alt="SAP Logo" class="h-full"> -->
+            <Logo />
         </div>
 
         <div class="col-span-6 ps-2 md:ps-0 md:col-span-6 flex flex-col justify-between text-gray-950 lg:pl-16">
