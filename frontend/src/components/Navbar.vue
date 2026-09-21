@@ -9,6 +9,7 @@ import Logo from './Logo.vue';
 
 const themeStore = useThemeStore()
 const app = useAppStore()
+const mainSchema = import.meta.env.VITE_MAIN_SCHEMA || 'SCHEMA'
 </script>
 
 <template>
@@ -23,7 +24,7 @@ const app = useAppStore()
             <div class="mt-2 items-center flex">
                 <router-link class="me-1" to="/">SAP</router-link>
                 <span class="me-1 flex items-center"><RightArrow/></span>
-                <router-link class="me-1" to="/">SBODEMO</router-link>
+                <router-link class="me-1" to="/">{{ mainSchema }}</router-link>
                 <span class="me-1 flex items-center"><RightArrow/></span>
                 <span class="me-1" href="">{{app.title}}</span>
             </div>

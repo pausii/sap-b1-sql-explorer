@@ -33,6 +33,12 @@ builder.Services.Configure<GlobalSettings>(
 // JWT Authentication
 var jwtConfig = builder.Configuration.GetSection("Jwt");
 var jwtKey = jwtConfig["Key"] ?? throw new InvalidOperationException("JWT key not found in config.");
+if (jwtKey.StartsWith("CHANGE_ME") || jwtKey.Length < 32)
+{
+    throw new InvalidOperationException(
+        "Jwt:Key is not configured. Set a random secret of at least 32 characters in appsettings.Development.json " +
+        "(see appsettings.Development.json.example) or via the Jwt__Key environment variable.");
+}
 var key = Encoding.UTF8.GetBytes(jwtKey);
 
 builder.Services.AddAuthentication(options =>

@@ -69,3 +69,20 @@ Thumbs.db
 # Rider & Resharper
 *.DotSettings.user
 _ReSharper*/
+
+# Local configuration with real credentials (see *.example files)
+backend/appsettings.Development.json
+backend/appsettings.Production.json
+backend/appsettings.Local.json
+frontend/.env
+frontend/.env.local
+
+# Local databases
+backend/*.db
+backend/*.db-*
+crawler/*.db
+crawler/*.db-*
+
+# Keep example/env templates and the frontend lockfile
+!.env.example
+!frontend/package-lock.json

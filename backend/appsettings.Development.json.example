@@ -1,0 +1,18 @@
+{
+  "ConnectionStrings": {
+    "HanaDb": "Driver={HDBODBC};ServerNode=your-hana-host:30015;UID=your-user;PWD=your-password;CurrentSchema=YOUR_SCHEMA",
+    "DefaultConnection": "Data Source=app.db"
+  },
+  "Jwt": {
+    "Key": "generate-a-random-secret-at-least-32-characters-long",
+    "Issuer": "sap-sql-command",
+    "Audience": "sap-sql-command-users"
+  },
+  "Auth": {
+    "Username": "admin",
+    "Password": "your-login-password"
+  },
+  "GlobalSettings": {
+    "MainSchema": "YOUR_SCHEMA"
+  }
+}

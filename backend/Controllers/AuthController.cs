@@ -21,8 +21,18 @@ namespace backend.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginRequestModel request)
         {
-            // Hardcoded user (bisa nanti pakai DB)
-            if (request.Username == "pausi" && request.Password == "REDACTED_PASSWORD")
+            // Single user defined in configuration (Auth:Username / Auth:Password).
+            // Replace with a real user store if you need multiple users.
+            var authConfig = _config.GetSection("Auth");
+            var configuredUser = authConfig["Username"];
+            var configuredPass = authConfig["Password"];
+
+            if (string.IsNullOrEmpty(configuredUser) || string.IsNullOrEmpty(configuredPass) || configuredPass == "CHANGE_ME")
+            {
+                return StatusCode(500, new { message = "Auth:Username / Auth:Password are not configured on the server." });
+            }
+
+            if (request.Username == configuredUser && request.Password == configuredPass)
             {
                 var token = GenerateJwtToken(request.Username);
                 return Ok(new { token });

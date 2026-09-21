@@ -9,8 +9,8 @@ onMounted(() => {
     document.body.style.overflow = 'hidden';
     const baseUrl = import.meta.env.VITE_API_BASE_URL;
     axios.post(`${baseUrl}/auth/login`,{
-        "username":"pausi", 
-        "password":"REDACTED_PASSWORD",
+        "username": import.meta.env.VITE_AUTH_USERNAME,
+        "password": import.meta.env.VITE_AUTH_PASSWORD,
     }).then((res) => {
         setTimeout(() => {
             document.body.style.overflow = ''; // remove overflow

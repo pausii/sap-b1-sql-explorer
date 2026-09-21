@@ -1,0 +1,40 @@
+{
+    "Finance": [
+        {
+            "table_name": "AACS",
+            "total_columns": 14,
+            "total_indexs": 1,
+            "description": "Asset Classes - History"
+        },
+        {
+            "table_name": "AACT",
+            "total_columns": 123,
+            "total_indexs": 1,
+            "description": "G/L Account - History"
+        },
+        {
+            "table_name": "AADT",
+            "total_columns": 27,
+            "total_indexs": 1,
+            "description": "Fixed Assets Account Determination - History"
+        },
+        {
+            "table_name": "ACD1",
+            "total_columns": 23,
+            "total_indexs": 1,
+            "description": "Credit Memo - Rows"
+        },
+        {
+            "table_name": "ACD2",
+            "total_columns": 9,
+            "total_indexs": 1,
+            "description": "Credit Memo - Area Journal Transactions"
+        },
+        {
+            "table_name": "ACD3",
+            "total_columns": 9,
+            "total_indexs": 1,
+            "description": "Credit Memo - Item Areas"
+        }
+    ]
+}
